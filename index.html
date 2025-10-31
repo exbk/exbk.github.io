@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>微账本 · 记账应用</title>
+  <meta name="description" content="微账本——一款简约时尚的Android记账应用，轻量、无广告、开箱即用，支持深浅主题切换与可视化图表。" />
+  <meta name="color-scheme" content="light dark" />
+  <style>
+    :root {
+      --bg: #0b0c0f;
+      --card: #11131a;
+      --text: #e7e9ee;
+      --muted: #aeb3c2;
+      --brand: #22d3ee;
+      --brand-2: #6ee7b7;
+      --accent: #fcd34d;
+      --stroke: #232633;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+    :root.light {
+      --bg: #ffffff;
+      --card: #f8fafc;
+      --text: #111827;
+      --muted: #5b6475;
+      --brand: #0ea5e9;
+      --brand-2: #22c55e;
+      --accent: #eab308;
+      --stroke: #e5e7eb;
+      --shadow: 0 10px 24px rgba(2, 6, 23, 0.1);
+    }
+    body {
+      margin: 0;
+      font: 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, PingFang SC, Arial;
+      background: var(--bg);
+      color: var(--text);
+      transition: background .3s, color .3s;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      backdrop-filter: blur(10px) saturate(1.2);
+      background: color-mix(in oklab, var(--bg) 85%, transparent);
+      border-bottom: 1px solid var(--stroke);
+      z-index: 50;
+    }
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 14px 20px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      font-weight: 700;
+      font-size: 1.25rem;
+      gap: 8px;
+    }
+    .logo-badge {
+      width: 28px;
+      height: 28px;
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: var(--bg);
+      display: grid;
+      place-items: center;
+      border-radius: 8px;
+      font-weight: 900;
+    }
+    .toggle {
+      border: 1px solid var(--stroke);
+      border-radius: 10px;
+      padding: 6px 10px;
+      cursor: pointer;
+      background: var(--card);
+      color: var(--text);
+      transition: all .3s;
+    }
+    .toggle:hover {background: var(--brand);color: var(--bg);}
+    main {
+      text-align: center;
+    }
+    section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 20px;
+      border-bottom: 1px solid var(--stroke);
+    }
+    h1, h2 {
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(28px, 4vw, 48px);
+      margin-bottom: 16px;
+    }
+    h2 {
+      font-size: clamp(22px, 3vw, 32px);
+      margin-bottom: 20px;
+    }
+    p {
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+    @media(min-width: 800px){.grid-3{grid-template-columns:repeat(3,1fr);} }
+    .card {
+      border: 1px solid var(--stroke);
+      border-radius: 16px;
+      background: var(--card);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: transform .2s, box-shadow .3s;
+    }
+    .card:hover {transform: translateY(-3px);box-shadow:0 12px 24px rgba(0,0,0,.2)}
+    .btn-primary {
+      background: linear-gradient(135deg, var(--brand), var(--brand-2));
+      color: #0b0c0f;
+      font-weight: 700;
+      border: none;
+      border-radius: 12px;
+      padding: 0.7rem 1.2rem;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-block;
+      box-shadow: var(--shadow);
+    }
+    .highlight {
+      background: radial-gradient(circle at top left, color-mix(in oklab, var(--brand), transparent 60%), transparent 90%);
+      padding: 60px 20px;
+      border-radius: 20px;
+      margin-bottom: 40px;
+    }
+    .chart-container {display:flex;justify-content:center;flex-wrap:wrap;gap:40px;align-items:center;}
+    svg.chart {width:260px;height:260px;display:block;}
+    footer {
+      border-top: 1px solid var(--stroke);
+      padding: 40px 0;
+      text-align: center;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <span class="logo-badge">E</span> 微账本
+      </div>
+      <button id="themeToggle" class="toggle">切换</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="highlight">
+      <h1>微账本</h1>
+      <p>一款简约高效的记账工具。轻量无广告，支持离线、自动分类与主题切换，让理财更轻松。</p>
+      <a class="btn-primary" id="download" href="weledger-android.apk" download>下载Android版</a>
+    </section>
+
+    <section>
+      <h2>功能亮点</h2>
+      <div class="grid grid-3">
+        <div class="card"><strong>极速记账</strong><p>打开即记，极简输入体验，让记账成为一种轻习惯。</p></div>
+        <div class="card"><strong>智能分类</strong><p>自动识别常见消费类别，让账目清晰无误。</p></div>
+        <div class="card"><strong>数据图表</strong><p>支出趋势和分类占比一目了然，理财决策更明智。</p></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>统计图示例</h2>
+      <div class="chart-container">
+        <svg class="chart" viewBox="0 0 300 150">
+          <rect x="30" y="80" width="30" height="50" fill="var(--brand)" rx="4"/>
+          <rect x="80" y="40" width="30" height="90" fill="var(--brand-2)" rx="4"/>
+          <rect x="130" y="60" width="30" height="70" fill="var(--accent)" rx="4"/>
+          <rect x="180" y="30" width="30" height="100" fill="var(--brand)" rx="4"/>
+          <rect x="230" y="70" width="30" height="60" fill="var(--brand-2)" rx="4"/>
+        </svg>
+        <svg class="chart" viewBox="0 0 200 200">
+          <circle cx="100" cy="100" r="80" fill="var(--stroke)"/>
+          <path d="M100,100 L100,20 A80,80 0 0,1 180,100 Z" fill="var(--brand)"/>
+          <path d="M100,100 L180,100 A80,80 0 0,1 60,160 Z" fill="var(--brand-2)"/>
+          <path d="M100,100 L60,160 A80,80 0 0,1 100,20 Z" fill="var(--accent)"/>
+        </svg>
+      </div>
+      <p>直观展示支出趋势与分类比例，让账目更透明。</p>
+    </section>
+
+    <section>
+      <h2>用户评价</h2>
+      <div class="grid grid-3">
+        <div class="card"><p>“操作简洁，每天记账的习惯轻松养成！”<br><span class="muted">—— Nancy</span></p></div>
+        <div class="card"><p>“统计图清晰直观，预算控制更有方向。”<br><span class="muted">—— Tom Lee</span></p></div>
+        <div class="card"><p>“莫兰迪主题色切换实用，界面很舒服。”<br><span class="muted">—— Kitty</span></p></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p>© <span id="y"></span> 微账本 · All rights reserved.</p>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const key = 'weledger-theme';
+    const toggle = document.getElementById('themeToggle');
+    function applyTheme(t){root.classList.toggle('light', t==='light');}
+    function toggleTheme(){const c=localStorage.getItem(key)||'dark';const n=c==='dark'?'light':'dark';localStorage.setItem(key,n);applyTheme(n);}
+    applyTheme(localStorage.getItem(key)||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark'));
+    toggle.addEventListener('click',toggleTheme);
+    document.getElementById('y').textContent=new Date().getFullYear();
+  </script>
+</body>
+</html>
